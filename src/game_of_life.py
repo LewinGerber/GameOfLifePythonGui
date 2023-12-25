@@ -1,3 +1,4 @@
+import copy
 from typing import List
 
 
@@ -22,13 +23,13 @@ class GameOfLife:
     ]
 
     def start(self):
-        self.grid[0][0] = True
-        self.grid[1][0] = True
-        self.grid[0][1] = True
+        self.grid[1][2] = True
+        self.grid[1][3] = True
+        self.grid[1][4] = True
 
     def evaluate_grid(self):
         dead_neighbors = []
-        new_grid = self.grid.copy()
+        new_grid = copy.deepcopy(self.grid)
 
         for row_index in range(len(self.grid)):
             for col_index in range(len(self.grid[row_index])):
@@ -59,14 +60,14 @@ class GameOfLife:
     def available_neighbors(self, row, col) -> int:
         total = 8
 
-        if row < 1:
+        if row == 0:
             total -= 3
-        if col > len(self.grid) - 1:
+        if col == 0:
+            total -= 2
+        if col == len(self.grid[0]) - 1:
+            total -= 2
+        if row == len(self.grid) - 1:
             total -= 3
-        if col - 1 < 0:
-            total -= 2
-        if col + 1 > len(self.grid[0]) - 1:
-            total -= 2
 
         return total
 
@@ -81,7 +82,7 @@ class GameOfLife:
             if not self.grid[upper_row][col]:
                 dead_neighbors.append(Position(upper_row, col))
 
-        if not (upper_row < 0 and left_hand < 0):
+        if not upper_row < 0 and not left_hand < 0:
             if not self.grid[upper_row][left_hand]:
                 dead_neighbors.append(Position(upper_row, left_hand))
 

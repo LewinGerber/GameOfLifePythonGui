@@ -21,13 +21,14 @@ class TestGameOfLife(TestCase):
     def test_get_dead_neighbors_2(self):
         game = GameOfLife()
         game.grid = [
+            [True, True, False],
             [True, False, False],
-            [False, True, False],
             [False, False, False],
         ]
 
-        dead_neighbors = game.get_dead_neighbors(1, 1)
+        dead_neighbors = game.get_dead_neighbors(0, 1)
         print(len(dead_neighbors))
+        print(game.available_neighbors(0, 1))
 
         assert len(dead_neighbors) is 7
 
